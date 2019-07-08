@@ -31,13 +31,9 @@ the$secret <- Sys.getenv('WEB_GOOGLE_CLIENT_ID_SECRET')
 #' @import aws.s3
 #' @import glue
 get_token <- function(user_id) {
-  if(!exists("token", the)){
-    the$token <- aws.s3::s3readRDS(object = glue('tokens/{user_id}/token.Rds'),
+  the$token <- aws.s3::s3readRDS(object = glue('tokens/{user_id}/token.Rds'),
                                                bucket = 'draftbuilder',
                                                accelerate = TRUE)
-    #gmail_auth()
-  }
-  the$token
 }
 
 #' Clear the current oauth token
