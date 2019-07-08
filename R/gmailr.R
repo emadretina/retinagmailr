@@ -25,12 +25,17 @@ NULL
 NULL
 
 the <- new.env(parent = emptyenv())
-the$id <- "955034766742-huv7d1b1euegvk5vfmfq7v83u4rpdqb0.apps.googleusercontent.com"
-the$secret <- "rpJPeEMnDOh7qNAVjUh_aKlO"
+the$id <- Sys.getenv('WEB_GOOGLE_CLIENT_ID')
+the$secret <- Sys.getenv('WEB_GOOGLE_CLIENT_ID_SECRET')
 
-get_token <- function() {
+#' @import aws.s3
+#' @import glue
+get_token <- function(user_id) {
   if(!exists("token", the)){
-    gmail_auth()
+    the$token <- aws.s3::s3readRDS(object = glue('tokens/{user_id}/token.Rds'),
+                                               bucket = 'draftbuilder',
+                                               accelerate = TRUE)
+    #gmail_auth()
   }
   the$token
 }
@@ -324,7 +329,7 @@ gmailr_query <- function(fun, location, user_id, class = NULL, ...,
   upload = FALSE) {
   path_fun <- if (upload) gmail_upload_path else gmail_path
   response <- fun(path_fun(user_id, location),
-             config(token = get_token()), ...)
+             config(token = get_token(user_id)), ...)
   result <- content(response, "parsed")
 
   the$last_response <- response
