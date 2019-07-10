@@ -30,7 +30,13 @@ the$secret <- Sys.getenv('WEB_GOOGLE_CLIENT_ID_SECRET')
 
 #' @import aws.s3
 #' @import glue
-get_token <- function(user_id, domain) {
+get_token <- function(user_id, domain = NULL) {
+  if (is.null(domain)){
+    domain <- strsplit(user_id, '@',fixed = T)[[1]][2]
+    if (is.na(domain)){
+      stop('Must prodive an email user id or domain')
+    }
+  }
   the$token <- aws.s3::s3readRDS(object = glue('{domain}/tokens/{user_id}/token.Rds'),
                                                bucket = 'draftbuilder',
                                                accelerate = TRUE)
