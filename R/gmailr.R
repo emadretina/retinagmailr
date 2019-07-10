@@ -323,7 +323,7 @@ print.gmail_drafts <- function(x, ...){
 
 the$last_response <- list()
 
-gmailr_query <- function(fun, location, user_id, domain_url, class = NULL, ...,
+gmailr_query <- function(fun, location, user_id, class = NULL, ...,
   upload = FALSE) {
   path_fun <- if (upload) gmail_upload_path else gmail_path
   response <- fun(path_fun(user_id, location),
@@ -354,8 +354,8 @@ last_response <- function() {
   the$last_response
 }
 
-gmailr_POST <- function(location, user_id, gmailr_POST, class = NULL, ...) {
-  gmailr_query(POST, location, user_id, gmailr_POST, class, ...)
+gmailr_POST <- function(location, user_id, class = NULL, ...) {
+  gmailr_query(POST, location, user_id, class, ...)
 }
 
 gmailr_GET <- function(location, user_id, class = NULL, ...) {
