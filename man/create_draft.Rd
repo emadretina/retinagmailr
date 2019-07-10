@@ -4,7 +4,7 @@
 \alias{create_draft}
 \title{Create a draft from a mime message}
 \usage{
-create_draft(mail, user_id = "me", domain = "retina.ai")
+create_draft(mail, user_id = "me", domain_url = "retina.ai")
 }
 \arguments{
 \item{mail}{mime mail message created by mime}

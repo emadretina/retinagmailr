@@ -57,10 +57,10 @@ drafts <- function(num_results = NULL, page_token = NULL, user_id = "me") {
 #' }
 create_draft <- function(mail,
                          user_id = "me",
-                         domain = "retina.ai") {
+                         domain_url = "retina.ai") {
   mail <- as.character(mail)
   stopifnot(is_string(user_id))
-  res <- gmailr_POST("drafts", user_id, domain, class = "gmail_draft",
+  res <- gmailr_POST("drafts", user_id, domain_url, class = "gmail_draft",
               query = list(uploadType="media"),
               body = mail,
               add_headers("Content-Type" = "message/rfc822"),

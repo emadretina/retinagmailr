@@ -30,14 +30,14 @@ the$secret <- Sys.getenv('WEB_GOOGLE_CLIENT_ID_SECRET')
 
 #' @import aws.s3
 #' @import glue
-get_token <- function(user_id, domain = NULL) {
-  if (is.null(domain)){
-    domain <- strsplit(user_id, '@',fixed = T)[[1]][2]
-    if (is.na(domain)){
-      stop('Must prodive an email user id or domain')
+get_token <- function(user_id, domain_url = NULL) {
+  if (is.null(domain_url)){
+    domain_url <- strsplit(user_id, '@',fixed = T)[[1]][2]
+    if (is.na(domain_url)){
+      stop('Must prodive an email user id or domain_url')
     }
   }
-  the$token <- aws.s3::s3readRDS(object = glue('{domain}/tokens/{user_id}/token.Rds'),
+  the$token <- aws.s3::s3readRDS(object = glue('{domain_url}/tokens/{user_id}/token.Rds'),
                                                bucket = 'draftbuilder',
                                                accelerate = TRUE)
 }
@@ -327,11 +327,11 @@ print.gmail_drafts <- function(x, ...){
 
 the$last_response <- list()
 
-gmailr_query <- function(fun, location, user_id, domain, class = NULL, ...,
+gmailr_query <- function(fun, location, user_id, domain_url, class = NULL, ...,
   upload = FALSE) {
   path_fun <- if (upload) gmail_upload_path else gmail_path
   response <- fun(path_fun(user_id, location),
-             config(token = get_token(user_id, domain)), ...)
+             config(token = get_token(user_id, domain_url)), ...)
   result <- content(response, "parsed")
 
   the$last_response <- response
