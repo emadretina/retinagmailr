@@ -1,4 +1,4 @@
-# gmailr #
+# retinagmailr #
 
 [![Build Status](https://travis-ci.org/r-lib/gmailr.svg?branch=master)](https://travis-ci.org/r-lib/gmailr)
 [![Coverage Status](https://coveralls.io/repos/r-lib/gmailr/badge.svg)](https://coveralls.io/r/r-lib/gmailr)

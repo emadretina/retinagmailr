@@ -1,7 +1,7 @@
-Package: gmailr
-Version: 0.7.1.9000
-Maintainer: Jim Hester <james.f.hester@gmail.com>
-Author: Jim Hester
+Package: retinagmailr
+Version: 0.1
+Maintainer: Emad Hasan <emad@retina.ai> 
+Author: Jim Hester, Emad Hasan
 Title: Access the Gmail RESTful API
 Description: An interface to the Gmail RESTful API.  Allows access to your
     Gmail messages, threads, drafts and labels.

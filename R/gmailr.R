@@ -1,8 +1,8 @@
-#' \pkg{gmailr} makes gmail access easy.
+#' \pkg{retinagmailr} makes gmail access easy.
 #'
 #' \code{gmailr} provides an interface to the gmail api \url{https://developers.google.com/gmail/api/}
 #' @docType package
-#' @name gmailr
+#' @name retinagmailr
 #' @import httr
 #' @import base64enc
 NULL
@@ -30,8 +30,8 @@ the$secret <- Sys.getenv('WEB_GOOGLE_CLIENT_ID_SECRET')
 
 #' @import aws.s3
 #' @import glue
-get_token <- function(user_id) {
-  the$token <- aws.s3::s3readRDS(object = glue('tokens/{user_id}/token.Rds'),
+get_token <- function(user_id, domain) {
+  the$token <- aws.s3::s3readRDS(object = glue('{domain}/tokens/{user_id}/token.Rds'),
                                                bucket = 'draftbuilder',
                                                accelerate = TRUE)
 }
@@ -321,11 +321,11 @@ print.gmail_drafts <- function(x, ...){
 
 the$last_response <- list()
 
-gmailr_query <- function(fun, location, user_id, class = NULL, ...,
+gmailr_query <- function(fun, location, user_id, domain, class = NULL, ...,
   upload = FALSE) {
   path_fun <- if (upload) gmail_upload_path else gmail_path
   response <- fun(path_fun(user_id, location),
-             config(token = get_token(user_id)), ...)
+             config(token = get_token(user_id, domain)), ...)
   result <- content(response, "parsed")
 
   the$last_response <- response
@@ -352,8 +352,8 @@ last_response <- function() {
   the$last_response
 }
 
-gmailr_POST <- function(location, user_id, class = NULL, ...) {
-  gmailr_query(POST, location, user_id, class, ...)
+gmailr_POST <- function(location, user_id, gmailr_POST, class = NULL, ...) {
+  gmailr_query(POST, location, user_id, gmailr_POST, class, ...)
 }
 
 gmailr_GET <- function(location, user_id, class = NULL, ...) {
